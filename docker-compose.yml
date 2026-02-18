@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.9'
 
 services:
   web:
@@ -6,9 +6,21 @@ services:
     container_name: healthcare_app
     ports:
       - "5000:5000"
-    volumes:
-      - healthcare_data:/app
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/healthcare_db
+
+  db:
+    image: postgres:15
+    container_name: healthcare_db
     restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: healthcare_db
+    volumes:
+      - healthcare_data:/var/lib/postgresql/data
 
 volumes:
   healthcare_data:
