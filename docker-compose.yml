@@ -10,6 +10,7 @@ services:
       - db
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/healthcare_db
+    restart: always
 
   db:
     image: postgres:15
